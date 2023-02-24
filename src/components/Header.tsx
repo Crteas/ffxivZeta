@@ -12,7 +12,7 @@ const Nav = styled.nav`
   height: 80px;
   background-color: #303030;
   font-size: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 32px;
   padding-left: 20px;
   li {
     list-style: none;
@@ -33,7 +33,6 @@ function Header() {
   const isZenith = useMatch("/zenith")?.pathname === "/zenith";
   const isAtma = useMatch("/atma")?.pathname === "/atma";
   const isAnimus = useMatch("/animus")?.pathname === "/animus";
-  console.log();
   return (
     <Nav>
       <li>
