@@ -1,4 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { skyfireObj } from "../data/totb";
 
 const Wrapper = styled.div`
   padding-left: 32px;
@@ -69,38 +71,40 @@ const TotbDungeonBox = styled.div`
   display: none;
 `;
 
-const companyColor = {
-  maelstrom: "#BE0622",
-  gridania: "#FCB301",
-  uldah: { bgColor: "#0B0304", border: "#FFCE03" },
-};
-
-const skyfireObj = {
-  enemy: [
-    {
-      enemyName: "대담한 이단자",
-      enemyInfo: "모르도나 짙은안개 습원",
-      bgColor: "",
-    },
-    {
-      enemyName: "자이언트 벌목꾼",
-      enemyInfo: "커르다스 중앙고지 큰바위 언덕",
-    },
-    { enemyName: "여울등뼈 사하긴", enemyInfo: "서부 라노시아 사프사 산란지" },
-    { enemyName: "V대대 뱅가드", enemyInfo: "모르도나 짙은 안개 습원" },
-    {
-      enemyName: "인조합금 도브란",
-      enemyInfo: "외지 라노시아 우가마로 무장광산",
-    },
-    { enemyName: "IV대대 검투사", enemyInfo: "서부 다날란 하늬바람 곶" },
-    { enemyName: "잔라크 격투사", enemyInfo: "남부 다날란 잔라크" },
-    { enemyName: "젖뿌리 꽃송이", enemyInfo: "검은장막 숲 동부삼림 실프 영지" },
-    { enemyName: "바실리스크", enemyInfo: "북부 다날란 푸른안개 수맥" },
-    { enemyName: "II대대 검투사", enemyInfo: "동부 라노시아 아젤리스 옛 가도" },
-  ],
-};
+const EnemyItems = styled.div<{ bgColor: string }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 5px;
+  background-color: ${(props) => props.bgColor};
+  color: ${(props) => props.color};
+  border: 1px solid white;
+`;
 
 function Animus() {
+  const [isSort, setIsSort] = useState(true);
+  const [totbObj, setTotbObj] = useState(skyfireObj);
+
+  const sorting = () => {
+    const data = skyfireObj.enemy
+      .concat()
+      .sort((a, b) => (a.location.region < b.location.region ? 1 : -1));
+
+    if (isSort) {
+      setTotbObj((prev) => {
+        let temp = Object.assign({}, prev);
+        temp.enemy = data;
+        return temp;
+      });
+    } else {
+      setTotbObj(skyfireObj);
+    }
+  };
+
+  function clickSortBtn() {
+    setIsSort((prev) => !prev);
+    sorting();
+  }
   return (
     <Wrapper>
       <TotbBox>
@@ -111,15 +115,25 @@ function Animus() {
           <TotbItems>의뢰</TotbItems>
         </TotbCategory>
         <TotbEnemyBox>
-          {skyfireObj.enemy.map((item) => (
-            <div>
+          {totbObj?.enemy.map((item) => (
+            <EnemyItems
+              key={item.enemyName}
+              bgColor={item.bgColor}
+              color={item.fontColor}
+            >
               <div>{item.enemyName}</div>
-              <div>{item.enemyInfo}</div>
-            </div>
+              <div>
+                <span>{item.location.direction} </span>
+                <span>{item.location.region} </span>
+                <br />
+                {item.location.area}
+              </div>
+            </EnemyItems>
           ))}
         </TotbEnemyBox>
         <TotbDungeonBox></TotbDungeonBox>
       </TotbBox>
+      <button onClick={clickSortBtn}>KimBab is very good</button>
     </Wrapper>
   );
 }
