@@ -17,6 +17,17 @@ interface ItotbObj {
     bgColor: string;
     fontColor?: string;
   }[];
+  dungeon: string[];
+  FATEs: {
+    name: string;
+    location: string;
+  }[];
+  leves: {
+    type: string;
+    name: string;
+    location: string;
+    grandCompany?: "흑와단" | "쌍사당" | "불멸대";
+  }[];
 }
 
 export const skyfireObj: ItotbObj = {
@@ -111,6 +122,34 @@ export const skyfireObj: ItotbObj = {
         area: "아젤리스 옛 가도",
       },
       bgColor: localColor.laNoscea,
+    },
+  ],
+  dungeon: ["탐타라 묘소", "돌방패 경계초소", "옛 암다포르 시가지"],
+  FATEs: [
+    { name: "기병의 천적", location: "커르다스 중앙고지" },
+    { name: "뇌우를 부르는자", location: "외지 라노시아" },
+    {
+      name: "계속되는 종달새의 지저귐 조우전",
+      location: "검은장막 숲 동부삼림",
+    },
+  ],
+  leves: [
+    {
+      type: "guildleve",
+      name: "파기: 금서'이계의 불꽃을 품은 자' 회수",
+      location: "북부 다날란 푸른안개 야영지",
+    },
+    {
+      type: "GCLeve",
+      name: "처치: 커르다스에 숨어있는 수배범",
+      location: "커르다스 중앙고지 하얀테 전초지",
+      grandCompany: "흑와단",
+    },
+    {
+      type: "guildleve",
+      name: "방어: 아그리우스 연구 임무",
+      location: "모르도나 성 코이나크 재단 조사지",
+      grandCompany: "쌍사당",
     },
   ],
 };

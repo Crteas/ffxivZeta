@@ -36,10 +36,10 @@ const TotbEnemyBox = styled.div`
   grid-template-rows: repeat(6, 1fr);
   grid-auto-flow: column;
   *:nth-child(1) {
-    grid-row: span 3;
+    grid-row: span 2;
   }
   *:nth-child(2) {
-    grid-row: span 3;
+    grid-row: span 2;
   }
   *:nth-child(3) {
     grid-row: span 2;
@@ -60,10 +60,10 @@ const TotbEnemyBox = styled.div`
     grid-row: span 2;
   }
   *:nth-child(9) {
-    grid-row: span 3;
+    grid-row: span 2;
   }
   *:nth-child(10) {
-    grid-row: span 3;
+    grid-row: span 2;
   }
 `;
 
