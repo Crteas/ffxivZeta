@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/ffxivZeta/static/js/main.f7b0ae6d.js",
+    "index.html": "/ffxivZeta/index.html",
+    "main.f7b0ae6d.js.map": "/ffxivZeta/static/js/main.f7b0ae6d.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.f7b0ae6d.js"
+  ]
+}
