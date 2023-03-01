@@ -50,7 +50,11 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
+  *{-ms-user-select: none; 
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;}
 `;
 
 const root = ReactDOM.createRoot(
