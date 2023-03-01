@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/ffxivZeta.git/static/js/main.27a95416.js",
-    "index.html": "/ffxivZeta.git/index.html",
-    "main.27a95416.js.map": "/ffxivZeta.git/static/js/main.27a95416.js.map"
+    "main.js": "/ffxivZeta/static/js/main.1db762dd.js",
+    "index.html": "/ffxivZeta/index.html",
+    "main.1db762dd.js.map": "/ffxivZeta/static/js/main.1db762dd.js.map"
   },
   "entrypoints": [
-    "static/js/main.27a95416.js"
+    "static/js/main.1db762dd.js"
   ]
 }
