@@ -11,13 +11,13 @@ import {
   skywind2,
   skyearth,
 } from "../data/totb";
-const localColor = {
-  laNoscea: "#BE0622",
-  blackforest: { bgColor: "#FCB301", font: "#161616" },
-  uldah: { bgColor: "#0B0304", font: "#FFCE03" },
-  morDhona: "#C170BA",
-  coerthas: "#5792C0",
-};
+// const localColor = {
+//   laNoscea: "#BE0622",
+//   blackforest: { bgColor: "#FCB301", font: "#161616" },
+//   uldah: { bgColor: "#0B0304", font: "#FFCE03" },
+//   morDhona: "#C170BA",
+//   coerthas: "#5792C0",
+// };
 
 const Wrapper = styled.div`
   padding-left: 32px;
@@ -117,17 +117,41 @@ const EnemyItems = styled.div<{ bgColor: string }>`
   }
 `;
 
-//* 세개 다 똑같은 형태니까 상속받는게 효율적일듯 .
+// 세개 다 똑같은 형태니까 상속받는게 효율적일듯 .
 
 const AnimusBox = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 `;
 const TotbDungeonBox = styled(AnimusBox)``;
-const DungeonItem = styled.div``;
+const DungeonItem = styled.div`
+  background-color: #2cbe93;
+  color: #ffffff;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+`;
 
 const TotbFATEsBox = styled(AnimusBox)``;
-const TotbFATEsItem = styled.div``;
+const TotbFATEsItem = styled.div<{ bgColor: string }>`
+  display: flex;
+  flex-direction: column;
+  background-color: ${(props) =>
+    props.bgColor.match(/다날란/)
+      ? "#0B0304"
+      : props.bgColor.match(/커르다스/)
+      ? "#5792C0"
+      : props.bgColor.match(/모르도나/)
+      ? "#C170BA"
+      : props.bgColor.match(/검은장막/)
+      ? "#FCB301"
+      : props.bgColor.match(/라노시아/)
+      ? "#BE0622"
+      : null};
+  color: ${(props) => (props.bgColor.match(/다날란/) ? "#FFCE03" : null)};
+`;
 const TotbLevesBox = styled(AnimusBox)``;
 const TotbLevesItem = styled.div<{ bgColor: string }>`
   background-color: ${(props) =>
@@ -149,6 +173,7 @@ const GCMark = styled.img`
 function Animus() {
   const [totbObj, setTotbObj] = useState(skyfireObj);
   const [currentSection, setCurrentSection] = useState("Enemy");
+  const [saveArr, setSaveArr] = useState<string[]>([]);
 
   // sorting EnemyArray
   // useEffect(() => {
@@ -213,20 +238,46 @@ function Animus() {
         alert("뭔가 잘못되었습니다.");
     }
   };
+  useEffect(() => {
+    const a = localStorage.getItem("EnemyCheck");
+    if (a) {
+      const b = JSON.parse(a);
+      setSaveArr(b);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("EnemyCheck", JSON.stringify(saveArr));
+  }, [saveArr]);
+
+  function resetClick() {
+    localStorage.setItem("EnemyCheck", "");
+    setSaveArr([]);
+  }
 
   return (
     <Wrapper>
-      <select onChange={selectChange}>
-        <option value={"fire1"}>불의서1</option>
-        <option value={"fire2"}>불의서2</option>
-        <option value={"fire3"}>불의서3</option>
-        <option value={"water1"}>물의서1</option>
-        <option value={"water2"}>물의서2</option>
-        <option value={"water3"}>물의서3</option>
-        <option value={"wind1"}>바람의서1</option>
-        <option value={"wind2"}>바람의서2</option>
-        <option value={"earth"}>땅의서1</option>
-      </select>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "1000px",
+          paddingBottom: "10px",
+        }}
+      >
+        <select onChange={selectChange}>
+          <option value={"fire1"}>불의서1</option>
+          <option value={"fire2"}>불의서2</option>
+          <option value={"fire3"}>불의서3</option>
+          <option value={"water1"}>물의서1</option>
+          <option value={"water2"}>물의서2</option>
+          <option value={"water3"}>물의서3</option>
+          <option value={"wind1"}>바람의서1</option>
+          <option value={"wind2"}>바람의서2</option>
+          <option value={"earth"}>땅의서1</option>
+        </select>
+        <button onClick={resetClick}>초기화</button>
+      </div>
       <TotbBox>
         <TotbCategory>
           <TotbItems onClick={onEnemyBtn}>적처치</TotbItems>
@@ -240,7 +291,19 @@ function Animus() {
               <EnemyItems
                 onClick={(event) => {
                   event.currentTarget.classList.toggle("checked");
+                  if (saveArr.find((e) => e === item.enemyName)) {
+                    setSaveArr((prev) =>
+                      [...prev].filter((e) => e !== item.enemyName)
+                    );
+                  } else {
+                    setSaveArr((prev) => [...prev, item.enemyName]);
+                  }
                 }}
+                className={
+                  saveArr.find((e) => e === item.enemyName)
+                    ? "checked"
+                    : undefined
+                }
                 key={item.enemyName}
                 bgColor={item.location.region}
                 color={item.location.region}
@@ -264,8 +327,9 @@ function Animus() {
         ) : currentSection === "FATEs" ? (
           <TotbFATEsBox>
             {totbObj.FATEs.map((item, index) => (
-              <TotbFATEsItem key={index}>
+              <TotbFATEsItem key={index} bgColor={item.location}>
                 <div>{item.name}</div>
+                <br />
                 <div>{item.location}</div>
               </TotbFATEsItem>
             ))}

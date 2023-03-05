@@ -224,7 +224,7 @@ export const skyfireObj2: ItotbObj = {
       },
     },
   ],
-  dungeon: ["브레이플록스의 야영지", "방랑자의 궁전", "구리종 광산(어려움)"],
+  dungeon: ["브레이플록스의 야영지", "방랑자의 궁전", "구리종 광산 H"],
   FATEs: [
     { name: "남쪽 방파벽 전투: 주력부대 습격", location: "서부 라노시아" },
     { name: "우리는 제2 전투대대", location: "남부 다날란" },
@@ -333,11 +333,7 @@ export const netherfire: ItotbObj = {
       },
     },
   ],
-  dungeon: [
-    "카른의 무너진 사원",
-    "하우케타 별궁(어려움)",
-    "할라탈리 수련장(어려움)",
-  ],
+  dungeon: ["카른의 무너진 사원", "하우케타 별궁 H", "할라탈리 수련장 H"],
   FATEs: [
     { name: "잔인한 악귀", location: "모르도나" },
     { name: "무지무지 즐거운 버섯따기", location: "검은장막 숲 동부삼림" },
@@ -449,7 +445,12 @@ export const skyfall: ItotbObj = {
       },
     },
   ],
-  dungeon: ["구리종 광산", "제멜 요새", "브레이플록스의 야영지(어려움)"],
+  dungeon: [
+    "구리종 광산",
+    "제멜 요새",
+    `브레이플록스의 야영지
+         H`,
+  ],
   FATEs: [
     { name: "입 큰 악귀", location: "커르다스 중앙고지" },
     { name: "이국에서 온 괴물곤충", location: "서부 라노시아" },
@@ -558,7 +559,7 @@ export const skyfall2: ItotbObj = {
       },
     },
   ],
-  dungeon: ["토토라크 감옥", "옛 암다포르 성", "하우케타 별궁(어려움)"],
+  dungeon: ["토토라크 감옥", "옛 암다포르 성", "하우케타 별궁 H"],
   FATEs: [
     { name: "북쪽 방파벽 전투: 주력 부대 습격", location: "서부 라노시아" },
     { name: "늪지대의 원혼", location: "모르도나" },
@@ -777,7 +778,7 @@ export const skywind: ItotbObj = {
       },
     },
   ],
-  dungeon: ["사스타샤 침식 동굴", "금빛 골짜기", "할라탈리 수련장(어려움)"],
+  dungeon: ["사스타샤 침식 동굴", "금빛 골짜기", "할라탈리 수련장 H"],
   FATEs: [
     { name: "수송부대 방어명령", location: "고지 라노시아" },
     { name: "음험한 마물", location: "검은장막 숲 중부삼림" },
@@ -887,11 +888,7 @@ export const skywind2: ItotbObj = {
       },
     },
   ],
-  dungeon: [
-    "하우케타 별궁",
-    "구리종 광산(어려움)",
-    "브레이플록스의 야영지(어려움)",
-  ],
+  dungeon: ["하우케타 별궁", "구리종 광산 H", "브레이플록스의 야영지 H"],
   FATEs: [
     { name: "친구와 가족", location: "남부 다날란" },
     { name: "최후의 멧돼지 왕", location: "검은장막 숲 남부삼림" },

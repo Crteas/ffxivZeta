@@ -9,7 +9,7 @@ import Atma from "./screens/Atma";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: <App />,
     children: [
       {
