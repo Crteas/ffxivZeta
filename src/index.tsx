@@ -31,9 +31,11 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 line-height: 1;
-  width: 100vw;
   background-color: #3d3c3d;
   font-family: 'Noto Sans KR', sans-serif;
+  height:90vh;
+  box-sizing:border-box;
+  
 }
 ol, ul {
 	list-style: none;

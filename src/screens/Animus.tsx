@@ -19,72 +19,67 @@ import {
 //   coerthas: "#5792C0",
 // };
 
+const MOBILE_WIDTH = `768px`;
+const UPPER_MOBILE_WIDTH = `769px`;
+
 const Wrapper = styled.div`
-  padding-left: 32px;
+  @media screen and (min-width: ${UPPER_MOBILE_WIDTH}) {
+    padding-left: 36px;
+  }
   color: #f5eeee;
 `;
 
+const SelectCategorys = styled.div`
+  @media screen and (max-width: ${MOBILE_WIDTH}) {
+    display: flex;
+    flex-direction: column;
+    padding: 0 18px;
+  }
+`;
+
 const TotbBox = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  width: 1000px;
-  height: 430px;
-  background-color: gray;
+  @media screen and (min-width: ${UPPER_MOBILE_WIDTH}) {
+    width: 760px;
+    height: 380px;
+  }
+  margin-top: 20px;
+  box-sizing: border-box;
 `;
-
-const TotbCategory = styled.div`
-  display: grid;
-  grid-template-rows: repeat(4, 1fr);
-  gap: 0;
-`;
-
-const TotbItems = styled.div`
-  background-color: ghostwhite;
-  color: coral;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
+const AnimusItems = styled.div`
+  padding: 10px 0 0 10px;
+  box-sizing: border-box;
+  width: 600px;
+  height: 260px;
+  font-size: 25px;
+  font-weight: 600;
+  @media screen and (max-width: ${MOBILE_WIDTH}) {
+    width: 93vw;
+  }
 `;
 
 const TotbEnemyBox = styled.div`
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  @media screen and (max-width: ${MOBILE_WIDTH}) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-bottom: 15vh;
+  }
+  /* display: grid;
+  height: 100%;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  *:nth-child(1) {
-    grid-row: span 2;
-  }
-  *:nth-child(2) {
-    grid-row: span 2;
-  }
-  *:nth-child(3) {
-    grid-row: span 2;
-  }
-  *:nth-child(4) {
-    grid-row: span 2;
-  }
-  *:nth-child(5) {
-    grid-row: span 2;
-  }
-  *:nth-child(6) {
-    grid-row: span 2;
-  }
-  *:nth-child(7) {
-    grid-row: span 2;
-  }
-  *:nth-child(8) {
-    grid-row: span 2;
-  }
-  *:nth-child(9) {
-    grid-row: span 2;
-  }
-  *:nth-child(10) {
-    grid-row: span 2;
-  }
+  grid-template-rows: repeat(3, 1fr); */
 `;
 
 const EnemyItems = styled.div<{ bgColor: string }>`
+  @media screen and (max-width: ${MOBILE_WIDTH}) {
+    width: 93vw;
+  }
   display: flex;
+  width: 170px;
+  height: 130px;
   flex-direction: column;
   justify-content: space-between;
   padding: 10px 5px;
@@ -120,22 +115,23 @@ const EnemyItems = styled.div<{ bgColor: string }>`
 // 세개 다 똑같은 형태니까 상속받는게 효율적일듯 .
 
 const AnimusBox = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
 `;
 const TotbDungeonBox = styled(AnimusBox)``;
-const DungeonItem = styled.div`
-  background-color: #2cbe93;
+const DungeonItem = styled(AnimusItems)`
+  background-color: #2c7cbe;
   color: #ffffff;
   border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
 `;
 
 const TotbFATEsBox = styled(AnimusBox)``;
-const TotbFATEsItem = styled.div<{ bgColor: string }>`
+const TotbFATEsItem = styled(AnimusItems)<{ bgColor: string }>`
   display: flex;
   flex-direction: column;
   background-color: ${(props) =>
@@ -153,7 +149,7 @@ const TotbFATEsItem = styled.div<{ bgColor: string }>`
   color: ${(props) => (props.bgColor.match(/다날란/) ? "#FFCE03" : null)};
 `;
 const TotbLevesBox = styled(AnimusBox)``;
-const TotbLevesItem = styled.div<{ bgColor: string }>`
+const TotbLevesItem = styled(AnimusItems)<{ bgColor: string }>`
   background-color: ${(props) =>
     props.bgColor.match(/다날란/)
       ? "#0B0304"
@@ -162,7 +158,7 @@ const TotbLevesItem = styled.div<{ bgColor: string }>`
       : props.bgColor.match(/모르도나/)
       ? "#C170BA"
       : null};
-  color: ${(props) => (props.bgColor.match(/다날란/) ? "#FFCE03" : null)};
+  color: ${(props) => (props.bgColor.match(/다날란/) ? "#FFCE03" : "#ffd000")};
 `;
 
 const GCMark = styled.img`
@@ -191,20 +187,26 @@ function Animus() {
   //   sorting();
   // }, []);
 
-  const onEnemyBtn = () => {
-    setCurrentSection((prev) => (prev = "Enemy"));
+  const selectCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.currentTarget;
+    switch (value) {
+      case "Enemy":
+        setCurrentSection(value);
+        break;
+      case "Dungeon":
+        setCurrentSection(value);
+        break;
+      case "FATEs":
+        setCurrentSection(value);
+        break;
+      case "Leve":
+        setCurrentSection(value);
+        break;
+      default:
+        alert("뭔가 잘못되었습니다.");
+    }
   };
-  const onDungeonClick = () => {
-    setCurrentSection("Dungeon");
-  };
-  const onFATEsClick = () => {
-    setCurrentSection("FATEs");
-  };
-  const onLeveClick = () => {
-    setCurrentSection("Leve");
-  };
-
-  const selectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  const selectBookChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.currentTarget;
     switch (value) {
       case "fire1":
@@ -250,22 +252,10 @@ function Animus() {
     localStorage.setItem("EnemyCheck", JSON.stringify(saveArr));
   }, [saveArr]);
 
-  function resetClick() {
-    localStorage.setItem("EnemyCheck", "");
-    setSaveArr([]);
-  }
-
   return (
     <Wrapper>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          width: "1000px",
-          paddingBottom: "10px",
-        }}
-      >
-        <select onChange={selectChange}>
+      <SelectCategorys>
+        <select onChange={selectBookChange}>
           <option value={"fire1"}>불의서1</option>
           <option value={"fire2"}>불의서2</option>
           <option value={"fire3"}>불의서3</option>
@@ -276,15 +266,14 @@ function Animus() {
           <option value={"wind2"}>바람의서2</option>
           <option value={"earth"}>땅의서1</option>
         </select>
-        <button onClick={resetClick}>초기화</button>
-      </div>
+        <select onChange={selectCategoryChange}>
+          <option value={"Enemy"}>적처치</option>
+          <option value={"Dungeon"}>던전</option>
+          <option value={"FATEs"}>돌발임무</option>
+          <option value={"Leve"}>의뢰</option>
+        </select>
+      </SelectCategorys>
       <TotbBox>
-        <TotbCategory>
-          <TotbItems onClick={onEnemyBtn}>적처치</TotbItems>
-          <TotbItems onClick={onDungeonClick}>던전</TotbItems>
-          <TotbItems onClick={onFATEsClick}>돌발임무</TotbItems>
-          <TotbItems onClick={onLeveClick}>의뢰</TotbItems>
-        </TotbCategory>
         {currentSection === "Enemy" ? (
           <TotbEnemyBox>
             {totbObj?.enemy.map((item) => (
@@ -339,6 +328,7 @@ function Animus() {
             {totbObj.leves.map((item, index) => (
               <TotbLevesItem key={index} bgColor={item.location}>
                 <div>{item.type}</div>
+                <br />
                 <div>{item.name}</div>
                 <br />
                 <div>{item.location}</div>

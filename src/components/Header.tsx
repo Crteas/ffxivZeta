@@ -10,6 +10,7 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   height: 80px;
+  width: auto;
   background-color: #303030;
   font-size: 20px;
   margin-bottom: 32px;
@@ -30,7 +31,7 @@ const Item = styled.span<a>`
 
 function Header() {
   const isHome = useMatch("/")?.pathname === "/";
-  const isZenith = useMatch("/zenith")?.pathname === "/zenith";
+  const isOption = useMatch("/options")?.pathname === "/options";
   const isAtma = useMatch("/atma")?.pathname === "/atma";
   const isAnimus = useMatch("/animus")?.pathname === "/animus";
   return (
@@ -40,11 +41,7 @@ function Header() {
           <Item isMatch={isHome}>제타에 앞서</Item>
         </Link>
       </li>
-      <li>
-        <Link to={"/zenith"}>
-          <Item isMatch={isZenith}>제니스</Item>
-        </Link>
-      </li>
+
       <li>
         <Link to={"/atma"}>
           <Item isMatch={isAtma}>아트마</Item>
@@ -53,6 +50,11 @@ function Header() {
       <li>
         <Link to={"/animus"}>
           <Item isMatch={isAnimus}>아니무스</Item>
+        </Link>
+      </li>
+      <li>
+        <Link to={"/options"}>
+          <Item isMatch={isOption}>옵션</Item>
         </Link>
       </li>
     </Nav>

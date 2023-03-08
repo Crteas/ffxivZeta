@@ -2,13 +2,15 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   color: #edecec;
   padding-left: 10px;
+  padding-bottom: 30vh;
 `;
 const AtmaSection = styled.section`
   display: flex;
-  width: max-content;
   height: max-content;
+  width: max-content;
   background-color: #5f5f5f;
 `;
 const AtmaLocation = styled.div`
@@ -20,6 +22,9 @@ const AtmaLocation = styled.div`
   width: 100px;
   font-size: 18px;
   font-weight: bold;
+  @media (max-width: 389px) {
+    display: none;
+  }
 `;
 const FlagImg = styled.img`
   width: 20px;
@@ -91,59 +96,56 @@ function Zeta() {
     ],
   };
   return (
-    <>
-      <Wrapper>
-        <AtmaSection>
-          <AtmaLocation>
-            <FlagImg src="img/beach.jpg" />
-            {laNosceaObj.location}
-          </AtmaLocation>
-          <AtmaItems>
-            {laNosceaObj.atmaInfo.map((item) => (
-              <AtmaItem key={item.atma}>
-                <div>{item.location}</div>
-                <div style={{ backgroundColor: item.bgColor }}>
-                  {item.atma} 아트마
-                </div>
-              </AtmaItem>
-            ))}
-          </AtmaItems>
-        </AtmaSection>
-        <AtmaSection>
-          <AtmaLocation>
-            <FlagImg src="img/sand.jpg" />
-            {thanalanObj.location}
-          </AtmaLocation>
-          <AtmaItems>
-            {thanalanObj.atmaInfo.map((item) => (
-              <AtmaItem key={item.atma}>
-                <div>{item.location}</div>
-                <div style={{ backgroundColor: item.bgColor }}>
-                  {item.atma} 아트마
-                </div>
-              </AtmaItem>
-            ))}
-          </AtmaItems>
-        </AtmaSection>
-        <AtmaSection>
-          <AtmaLocation>
-            <FlagImg src="img/forest.jpg" />
-            {blackShroudObj.location}
-          </AtmaLocation>
-          <AtmaItems>
-            {blackShroudObj.atmaInfo.map((item) => (
-              <AtmaItem key={item.atma}>
-                <div>{item.location}</div>
-                <div style={{ backgroundColor: item.bgColor }}>
-                  {item.atma} 아트마
-                </div>
-              </AtmaItem>
-            ))}
-          </AtmaItems>
-        </AtmaSection>
-      </Wrapper>
-      <Warning>제타를 꼭 끼ㅏ세요 제발 ㅜㅜㅜ</Warning>
-    </>
+    <Wrapper>
+      <AtmaSection>
+        <AtmaLocation>
+          <FlagImg src="img/beach.jpg" />
+          {laNosceaObj.location}
+        </AtmaLocation>
+        <AtmaItems>
+          {laNosceaObj.atmaInfo.map((item) => (
+            <AtmaItem key={item.atma}>
+              <div>{item.location}</div>
+              <div style={{ backgroundColor: item.bgColor }}>
+                {item.atma} 아트마
+              </div>
+            </AtmaItem>
+          ))}
+        </AtmaItems>
+      </AtmaSection>
+      <AtmaSection>
+        <AtmaLocation>
+          <FlagImg src="img/sand.jpg" />
+          {thanalanObj.location}
+        </AtmaLocation>
+        <AtmaItems>
+          {thanalanObj.atmaInfo.map((item) => (
+            <AtmaItem key={item.atma}>
+              <div>{item.location}</div>
+              <div style={{ backgroundColor: item.bgColor }}>
+                {item.atma} 아트마
+              </div>
+            </AtmaItem>
+          ))}
+        </AtmaItems>
+      </AtmaSection>
+      <AtmaSection>
+        <AtmaLocation>
+          <FlagImg src="img/forest.jpg" />
+          {blackShroudObj.location}
+        </AtmaLocation>
+        <AtmaItems>
+          {blackShroudObj.atmaInfo.map((item) => (
+            <AtmaItem key={item.atma}>
+              <div>{item.location}</div>
+              <div style={{ backgroundColor: item.bgColor }}>
+                {item.atma} 아트마
+              </div>
+            </AtmaItem>
+          ))}
+        </AtmaItems>
+      </AtmaSection>
+    </Wrapper>
   );
 }
 
