@@ -29,12 +29,27 @@ const Wrapper = styled.div`
   color: #f5eeee;
 `;
 
-const SelectCategorys = styled.div`
+const SelectCategoryWrapper = styled.div`
   @media screen and (max-width: ${MOBILE_WIDTH}) {
     display: flex;
     flex-direction: column;
     padding: 0 18px;
   }
+`;
+
+const SelectCategory = styled.select`
+  background-color: #3d3c3d;
+  border: 1px solid gray;
+  padding: 5px;
+  color: white;
+  &:focus {
+    outline: 0;
+  }
+  option {
+    color: white;
+    margin-bottom: 10px;
+  }
+  margin-bottom: 10px;
 `;
 
 const TotbBox = styled.div`
@@ -254,8 +269,8 @@ function Animus() {
 
   return (
     <Wrapper>
-      <SelectCategorys>
-        <select onChange={selectBookChange}>
+      <SelectCategoryWrapper>
+        <SelectCategory onChange={selectBookChange}>
           <option value={"fire1"}>불의서1</option>
           <option value={"fire2"}>불의서2</option>
           <option value={"fire3"}>불의서3</option>
@@ -265,14 +280,15 @@ function Animus() {
           <option value={"wind1"}>바람의서1</option>
           <option value={"wind2"}>바람의서2</option>
           <option value={"earth"}>땅의서1</option>
-        </select>
-        <select onChange={selectCategoryChange}>
+        </SelectCategory>
+        <br />
+        <SelectCategory onChange={selectCategoryChange}>
           <option value={"Enemy"}>적처치</option>
           <option value={"Dungeon"}>던전</option>
           <option value={"FATEs"}>돌발임무</option>
           <option value={"Leve"}>의뢰</option>
-        </select>
-      </SelectCategorys>
+        </SelectCategory>
+      </SelectCategoryWrapper>
       <TotbBox>
         {currentSection === "Enemy" ? (
           <TotbEnemyBox>
