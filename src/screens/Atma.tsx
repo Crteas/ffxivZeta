@@ -62,7 +62,6 @@ const AtmaItem = styled.div`
     height: 90px;
   }
 `;
-const Warning = styled.footer``;
 type atmaObj = {
   location: string;
   atmaInfo: { location: string; atma: string; bgColor: string }[];

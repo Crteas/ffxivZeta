@@ -4,7 +4,6 @@ import ErrorComponents from "./components/ErrorComponents";
 import Animus from "./screens/Animus";
 import Home from "./screens/Home";
 import NotFound from "./screens/NotFound";
-import Zenith from "./screens/Options";
 import Atma from "./screens/Atma";
 import Options from "./screens/Options";
 
