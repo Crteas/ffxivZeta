@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
 import router from "./Router";
 import { RouterProvider } from "react-router-dom";
-// import { app, analytics } from "./FireBase";
+import { app, analytics } from "./FireBase";
 const Global = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
