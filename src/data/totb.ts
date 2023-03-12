@@ -157,8 +157,9 @@ export const skyfireObj2: ItotbObj = {
     {
       enemyName: "여울이빨 사하긴",
       location: {
-        region: "모르도나",
-        area: "짙은 안개 습원",
+        region: "라노시아",
+        area: "사프사 산란지",
+        direction: "서부",
       },
     },
     {
