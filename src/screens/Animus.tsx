@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   skyfireObj,
@@ -10,6 +10,10 @@ import {
   skywind,
   skywind2,
   skyearth,
+  IEnemy,
+  IFATEs,
+  Ileves,
+  IDungeon,
 } from "../data/totb";
 // const localColor = {
 //   laNoscea: "#BE0622",
@@ -143,6 +147,10 @@ const DungeonItem = styled(AnimusItems)`
   display: flex;
   justify-content: center;
   align-items: center;
+  &.checked {
+    background-color: gray;
+    color: whitesmoke;
+  }
 `;
 
 const TotbFATEsBox = styled(AnimusBox)``;
@@ -162,6 +170,10 @@ const TotbFATEsItem = styled(AnimusItems)<{ bgColor: string }>`
       ? "#BE0622"
       : null};
   color: ${(props) => (props.bgColor.match(/다날란/) ? "#FFCE03" : null)};
+  &.checked {
+    background-color: gray;
+    color: whitesmoke;
+  }
 `;
 const TotbLevesBox = styled(AnimusBox)``;
 const TotbLevesItem = styled(AnimusItems)<{ bgColor: string }>`
@@ -174,6 +186,10 @@ const TotbLevesItem = styled(AnimusItems)<{ bgColor: string }>`
       ? "#C170BA"
       : null};
   color: ${(props) => (props.bgColor.match(/다날란/) ? "#FFCE03" : "#ffd000")};
+  &.checked {
+    background-color: gray;
+    color: whitesmoke;
+  }
 `;
 
 const GCMark = styled.img`
@@ -181,10 +197,24 @@ const GCMark = styled.img`
   height: 40px;
 `;
 
+interface IsaveObj {
+  enemy: string[];
+  dungeon: string[];
+  fates: string[];
+  leve: string[];
+}
+
 function Animus() {
   const [totbObj, setTotbObj] = useState(skyfireObj);
   const [currentSection, setCurrentSection] = useState("Enemy");
-  const [saveArr, setSaveArr] = useState<string[]>([]);
+  const [saveArr, setSaveArr] = useState<IsaveObj>({
+    enemy: [],
+    dungeon: [],
+    fates: [],
+    leve: [],
+  });
+  const selectBookRef = useRef<HTMLSelectElement>(null);
+  const selectCategoryRef = useRef<HTMLSelectElement>(null);
 
   // sorting EnemyArray
   // useEffect(() => {
@@ -202,8 +232,8 @@ function Animus() {
   //   sorting();
   // }, []);
 
-  const selectCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.currentTarget;
+  // 선택한거 보여주는 함수
+  const showSelectCategory = (value: string) => {
     switch (value) {
       case "Enemy":
         setCurrentSection(value);
@@ -221,8 +251,15 @@ function Animus() {
         alert("뭔가 잘못되었습니다.");
     }
   };
-  const selectBookChange = (event: ChangeEvent<HTMLSelectElement>) => {
+  // 카테고리를 바꿨을때 실행하는 함수
+  const selectCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.currentTarget;
+    showSelectCategory(value);
+    localStorage.setItem("selectCategory", value);
+  };
+
+  //황도 12문서오브젝트를 설정하는 함수
+  const showTotbObj = (value: string) => {
     switch (value) {
       case "fire1":
         setTotbObj(skyfireObj);
@@ -255,6 +292,28 @@ function Animus() {
         alert("뭔가 잘못되었습니다.");
     }
   };
+  // 책 변경 함수
+  const selectBookChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.currentTarget;
+    showTotbObj(value);
+    localStorage.setItem("bookCategory", value);
+  };
+
+  // 처음 실행했을때 마지막으로 오픈한 부분을 불러오기.
+  useEffect(() => {
+    const saveBookCategory = localStorage.getItem("bookCategory");
+    const saveSelectCategory = localStorage.getItem("selectCategory");
+    if (saveBookCategory && selectBookRef.current) {
+      selectBookRef.current.value = saveBookCategory;
+      showTotbObj(saveBookCategory);
+    }
+
+    if (saveSelectCategory && selectCategoryRef.current) {
+      selectCategoryRef.current.value = saveSelectCategory;
+      showSelectCategory(saveSelectCategory);
+    }
+  });
+
   useEffect(() => {
     const a = localStorage.getItem("EnemyCheck");
     if (a) {
@@ -263,14 +322,93 @@ function Animus() {
     }
   }, []);
 
+  function clickSave(
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    item: IEnemy | IFATEs | Ileves | IDungeon,
+    type: "enemy" | "dungeon" | "FATEs" | "leves"
+  ) {
+    event.currentTarget.classList.toggle("checked");
+    switch (type) {
+      case "enemy":
+        if (saveArr.enemy.find((e) => e === item.id)) {
+          setSaveArr((prev) => {
+            const obj = Object.assign({}, prev);
+            const enemy = [...prev.enemy].filter((e) => e !== item?.id);
+            obj.enemy = enemy;
+            return obj;
+          });
+        } else {
+          setSaveArr((prev) => {
+            const obj = Object.assign({}, prev);
+            const enemy = [...prev.enemy, item.id];
+            obj.enemy = enemy;
+            return obj;
+          });
+        }
+        break;
+      case "dungeon":
+        if (saveArr.dungeon.find((e) => e === item.id)) {
+          console.log("있네?");
+          setSaveArr((prev) => {
+            const obj = Object.assign({}, prev);
+            const dungeon = [...prev.dungeon].filter((e) => e !== item?.id);
+            obj.dungeon = dungeon;
+            return obj;
+          });
+        } else {
+          setSaveArr((prev) => {
+            console.log("없네?");
+            const obj = Object.assign({}, prev);
+            const dungeon = [...prev.dungeon, item.id];
+            obj.dungeon = dungeon;
+            return obj;
+          });
+        }
+        break;
+      case "FATEs":
+        if (saveArr.fates.find((e) => e === item.id)) {
+          setSaveArr((prev) => {
+            const obj = Object.assign({}, prev);
+            const fates = [...prev.fates].filter((e) => e !== item?.id);
+            obj.fates = fates;
+            return obj;
+          });
+        } else {
+          setSaveArr((prev) => {
+            const obj = Object.assign({}, prev);
+            const fates = [...prev.fates, item.id];
+            obj.fates = fates;
+            return obj;
+          });
+        }
+        break;
+      case "leves":
+        if (saveArr.leve.find((e) => e === item.id)) {
+          setSaveArr((prev) => {
+            const obj = Object.assign({}, prev);
+            const leve = [...prev.leve].filter((e) => e !== item?.id);
+            obj.leve = leve;
+            return obj;
+          });
+        } else {
+          setSaveArr((prev) => {
+            const obj = Object.assign({}, prev);
+            const leve = [...prev.leve, item.id];
+            obj.leve = leve;
+            return obj;
+          });
+        }
+        break;
+    }
+  }
+
   useEffect(() => {
     localStorage.setItem("EnemyCheck", JSON.stringify(saveArr));
-  }, [saveArr]);
-
+  }, [saveArr.enemy, saveArr.dungeon, saveArr.fates, saveArr.leve, saveArr]);
   return (
     <Wrapper>
       <SelectCategoryWrapper>
-        <SelectCategory onChange={selectBookChange}>
+        <SelectCategory onChange={selectBookChange} ref={selectBookRef}>
           <option value={"fire1"}>불의서1</option>
           <option value={"fire2"}>불의서2</option>
           <option value={"fire3"}>불의서3</option>
@@ -282,7 +420,7 @@ function Animus() {
           <option value={"earth"}>땅의서1</option>
         </SelectCategory>
         <br />
-        <SelectCategory onChange={selectCategoryChange}>
+        <SelectCategory ref={selectCategoryRef} onChange={selectCategoryChange}>
           <option value={"Enemy"}>적처치</option>
           <option value={"Dungeon"}>던전</option>
           <option value={"FATEs"}>돌발임무</option>
@@ -294,26 +432,18 @@ function Animus() {
           <TotbEnemyBox>
             {totbObj?.enemy.map((item) => (
               <EnemyItems
-                onClick={(event) => {
-                  event.currentTarget.classList.toggle("checked");
-                  if (saveArr.find((e) => e === item.enemyName)) {
-                    setSaveArr((prev) =>
-                      [...prev].filter((e) => e !== item.enemyName)
-                    );
-                  } else {
-                    setSaveArr((prev) => [...prev, item.enemyName]);
-                  }
-                }}
+                onClick={(event) => clickSave(event, item, "enemy")}
                 className={
-                  saveArr.find((e) => e === item.enemyName)
+                  saveArr.enemy?.find((e) => e === item.id)
                     ? "checked"
                     : undefined
                 }
-                key={item.enemyName}
+                key={item.id}
                 bgColor={item.location.region}
                 color={item.location.region}
+                id={item.id}
               >
-                <div>{item.enemyName}</div>
+                <div>{item.name}</div>
                 <div>
                   <span>{item.location.direction} </span>
                   <span>{item.location.region} </span>
@@ -326,13 +456,32 @@ function Animus() {
         ) : currentSection === "Dungeon" ? (
           <TotbDungeonBox>
             {totbObj.dungeon.map((item, index) => (
-              <DungeonItem key={index}>{item}</DungeonItem>
+              <DungeonItem
+                onClick={(event) => clickSave(event, item, "dungeon")}
+                className={
+                  saveArr.dungeon?.find((e) => e === item.id)
+                    ? "checked"
+                    : undefined
+                }
+                key={index}
+              >
+                {item.name}
+              </DungeonItem>
             ))}
           </TotbDungeonBox>
         ) : currentSection === "FATEs" ? (
           <TotbFATEsBox>
             {totbObj.FATEs.map((item, index) => (
-              <TotbFATEsItem key={index} bgColor={item.location}>
+              <TotbFATEsItem
+                key={index}
+                bgColor={item.location}
+                onClick={(event) => clickSave(event, item, "FATEs")}
+                className={
+                  saveArr.fates?.find((e) => e === item.id)
+                    ? "checked"
+                    : undefined
+                }
+              >
                 <div>{item.name}</div>
                 <br />
                 <div>{item.location}</div>
@@ -342,7 +491,16 @@ function Animus() {
         ) : currentSection === "Leve" ? (
           <TotbLevesBox>
             {totbObj.leves.map((item, index) => (
-              <TotbLevesItem key={index} bgColor={item.location}>
+              <TotbLevesItem
+                key={index}
+                bgColor={item.location}
+                onClick={(event) => clickSave(event, item, "leves")}
+                className={
+                  saveArr.leve?.find((e) => e === item.id)
+                    ? "checked"
+                    : undefined
+                }
+              >
                 <div>{item.type}</div>
                 <br />
                 <div>{item.name}</div>

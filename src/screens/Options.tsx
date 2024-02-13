@@ -15,13 +15,23 @@ const Wrapper = styled.div`
 const Dialog = styled.dialog`
   width: 400px;
   height: 400px;
+  /* display: flex;
+  flex-direction: column; */
+  background-color: #303030;
+  border: 1px solid black;
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.4);
   }
   textarea {
+    background-color: #3d3c3d;
     width: 300px;
     height: 200px;
     resize: none;
+    color: white;
+    margin-bottom: 5px;
+  }
+  textarea:focus {
+    outline: none;
   }
 `;
 
@@ -45,7 +55,7 @@ function Options() {
     function roadStorageItem() {
       const items = localStorage.getItem("EnemyCheck");
       if (items) {
-        setArr(JSON.parse(items));
+        setArr(items);
       }
     }
     if (isRoading) {
@@ -54,7 +64,12 @@ function Options() {
     }
   }, [isRoading]);
 
-  useEffect(() => {});
+  function clickImportBtn() {
+    if (importArr) {
+      localStorage.setItem("EnemyCheck", importArr);
+      setIsRoading((prev) => !prev);
+    }
+  }
 
   function resetClick() {
     const result = window.confirm("정말로 초기화 하시겠습니까?");
@@ -77,11 +92,16 @@ function Options() {
       <span>아니무스 초기화 : </span>
       <button onClick={resetClick}>초기화</button>
       <br />
-
-      <button onClick={btnClick}>Show</button>
+      <button onClick={btnClick}>따로저장하기</button>
       <Dialog ref={dialogRef}>
-        <button onClick={clickExport}>Export</button>
-        <button onClick={clickImport}>Import</button>
+        <p style={{ color: "white" }}>
+          불러오기를 잘 못 입력하실경우 오류가 발생합니다!! <br />
+          주의해주세요!! <br />
+          만약 오류가 발생했을시 아니무스 초기화를 눌러주세요
+        </p>
+        <br />
+        <button onClick={clickExport}>저장하기</button>
+        <button onClick={clickImport}>불러오기</button>
         <Dialog ref={dialogRef2}>
           <textarea readOnly onChange={changeArr} value={arr} />
           <form method="dialog">
@@ -89,19 +109,10 @@ function Options() {
           </form>
         </Dialog>
         <Dialog ref={dialogRef3}>
-          <textarea onChange={changeImportArr} value={importArr} />
-          <button
-            onClick={() => {
-              if (importArr) {
-                const a = importArr.split(",");
-                const b = JSON.stringify(a);
-                localStorage.setItem("EnemyCheck", b);
-                setIsRoading((prev) => !prev);
-              }
-            }}
-          >
-            import!
-          </button>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <textarea onChange={changeImportArr} value={importArr} />
+            <button onClick={clickImportBtn}>적용</button>
+          </div>
           <form method="dialog">
             <button>닫기</button>
           </form>
